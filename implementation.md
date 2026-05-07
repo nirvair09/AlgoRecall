@@ -1,4 +1,4 @@
-# AlgoRecall: Implementation Plan (V1)
+# AlgoRecall: Implementation Plan (V1 & V2)
 
 ## 🧠 The Problem
 **"I solve DSA problems → forget patterns → waste time relearning."**
@@ -65,7 +65,49 @@ Categorize problems to identify weak areas.
 
 ---
 
-## 🛠️ Next Steps
-1.  **Define Database Schema**: Design the `Problem` and `User` models.
-2.  **API Design**: Define endpoints for `addProblem`, `getDueProblems`, and `updateRecallStatus`.
-3.  **UI Mockup**: Design the Dashboard and Recall Flow.
+---
+
+## 🌟 Version 2: "The Intelligent Recall System"
+
+### 1. Smart Adaptation (SM-2 Algorithm)
+Move from fixed intervals to an adaptive algorithm similar to Anki.
+*   **Ease Factor**: Each problem has an "Ease" score (starts at 2.5).
+-   **Calculation**:
+    -   `Easy`: Increase Ease Factor, set longer interval.
+    -   `Medium`: Keep Ease Factor, standard interval.
+    -   `Fail`: Decrease Ease Factor, reset interval to Day 0.
+*   **Outcome**: Spend more time on hard patterns (e.g., DP) and less on easy ones (e.g., Arrays).
+
+### 2. AI-Powered Auto-Ingestion
+Reduce friction during the "Add Problem" phase.
+*   **Scraping/API**: Input a LeetCode URL, and the system automatically fetches:
+    -   Title & Slug
+    -   Difficulty Level
+    -   Example Test Cases
+    -   Company Tags (if available)
+*   **Outcome**: User only needs to write the "Notes" section.
+
+### 3. Visual Mastery & Analytics
+Motivate users with data-driven progress tracking.
+*   **Heatmap**: A GitHub-style "Activity Heatmap" to track daily review consistency.
+*   **Pattern Radar**: A radar chart showing performance across different topics (Trees vs. DP vs. Graphs).
+*   **Retention Graph**: Visualize the "Forgetting Curve" and how many problems are nearing "Mastered" status.
+
+### 4. Rich Content Support
+Enhance the "Review" stage for better understanding.
+*   **Markdown Support**: Use React-Markdown to allow code snippets, bold text, and lists in notes.
+*   **Code Highlighting**: Proper syntax highlighting for the "Ideal Solution" section.
+*   **Image Uploads**: Attach screenshots of hand-drawn logic or whiteboards.
+
+### 5. Advanced Organizational Tools
+Help manage a growing database of hundreds of problems.
+*   **Global Search**: Fuzzy search through titles and tags.
+*   **Bulk Actions**: Mark multiple problems as mastered or move them to a different category.
+*   **Collections**: Group problems into "Blind 75", "Striver SDE Sheet", or "Custom Mock Interviews".
+
+---
+
+## 🛠️ Next Steps (V2)
+1.  **Integrate AI Service**: Setup an LLM (Gemini/OpenAI) or a scraper for LeetCode data extraction.
+2.  **Refactor Spaced Repetition Engine**: Transition from `currentIntervalIndex` to `easeFactor` and `intervalDays`.
+3.  **UI Overhaul**: Add an "Analytics" tab and implement Markdown rendering.
