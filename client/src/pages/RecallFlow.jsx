@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ChevronLeft, ExternalLink, Brain, Check, X, AlertCircle } from 'lucide-react';
 import useStore from '../store/useStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import MarkdownRenderer from '../components/MarkdownRenderer';
 
 const RecallFlow = () => {
   const { dueProblems, fetchDueProblems, updateRecall, loading } = useStore();
@@ -136,8 +137,8 @@ const RecallFlow = () => {
                   <Brain size={20} />
                   My Notes
                 </h3>
-                <div className="bg-white/5 p-6 rounded-2xl text-slate-300 whitespace-pre-wrap leading-relaxed border border-white/5">
-                  {currentProblem.notes}
+                <div className="bg-white/5 p-6 rounded-2xl text-slate-300 leading-relaxed border border-white/5">
+                  <MarkdownRenderer content={currentProblem.notes} />
                 </div>
               </div>
 
