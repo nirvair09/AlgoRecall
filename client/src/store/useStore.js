@@ -74,6 +74,19 @@ const useStore = create((set, get) => ({
       console.error('Error updating recall:', error);
     }
   },
+
+  fetchProblemMetadata: async (url) => {
+    try {
+      const { token } = get();
+      const res = await axios.get(`${API_URL}/problems/fetch-metadata?url=${encodeURIComponent(url)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error('Error fetching metadata:', error);
+      return null;
+    }
+  },
 }));
 
 export default useStore;

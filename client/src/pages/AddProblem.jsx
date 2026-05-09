@@ -14,7 +14,8 @@ const AddProblem = () => {
     tags: '',
   });
   const [loading, setLoading] = useState(false);
-  const { addProblem } = useStore();
+  const [isFetching, setIsFetching] = useState(false);
+  const { addProblem, fetchProblemMetadata } = useStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -30,6 +31,23 @@ const AddProblem = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleUrlBlur = async () => {
+    if (!formData.url || !formData.url.startsWith('http')) return;
+    
+    setIsFetching(true);
+    const metadata = await fetchProblemMetadata(formData.url);
+    if (metadata) {
+      setFormData(prev => ({
+        ...prev,
+        title: metadata.title || prev.title,
+        difficulty: metadata.difficulty || prev.difficulty,
+        platform: metadata.platform || prev.platform,
+        tags: metadata.tags ? metadata.tags.join(', ') : prev.tags
+      }));
+    }
+    setIsFetching(false);
   };
 
   return (
@@ -68,7 +86,14 @@ const AddProblem = () => {
                 className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white focus:border-primary-500 outline-none transition-all"
                 value={formData.url}
                 onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                onBlur={handleUrlBlur}
               />
+              {isFetching && (
+                <div className="absolute right-4 top-3.5 flex items-center gap-2 text-primary-400 text-xs">
+                  <div className="w-4 h-4 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></div>
+                  <span>Fetching...</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
