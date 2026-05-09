@@ -5,12 +5,22 @@ import useStore from '../store/useStore';
 import { motion } from 'framer-motion';
 
 const Dashboard = () => {
-  const { stats, fetchStats, dueProblems, fetchDueProblems } = useStore();
+  const { stats, fetchStats, dueProblems, fetchDueProblems, problems, fetchProblems } = useStore();
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [filterDifficulty, setFilterDifficulty] = React.useState('All');
 
   useEffect(() => {
     fetchStats();
     fetchDueProblems();
+    fetchProblems();
   }, []);
+
+  const filteredProblems = problems.filter(p => {
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesDifficulty = filterDifficulty === 'All' || p.difficulty === filterDifficulty;
+    return matchesSearch && matchesDifficulty;
+  });
 
   const statCards = [
     { label: 'Total Problems', value: stats.total, icon: Target, color: 'text-blue-400' },
@@ -108,6 +118,72 @@ const Dashboard = () => {
             ))}
           </div>
         )}
+      </section>
+
+      {/* Global Search & All Problems */}
+      <section className="space-y-6 pt-12 border-t border-white/5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <h2 className="text-xl font-semibold text-white">All Problems</h2>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search titles or tags..."
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:border-primary-500 outline-none w-full sm:w-64"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <select
+              className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm text-white outline-none"
+              value={filterDifficulty}
+              onChange={(e) => setFilterDifficulty(e.target.value)}
+            >
+              <option value="All" className="bg-[#1e293b]">All Difficulties</option>
+              <option value="Easy" className="bg-[#1e293b]">Easy</option>
+              <option value="Medium" className="bg-[#1e293b]">Medium</option>
+              <option value="Hard" className="bg-[#1e293b]">Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid gap-3">
+          {filteredProblems.length === 0 ? (
+            <div className="text-center py-10 text-slate-500 bg-white/2 rounded-2xl border border-dashed border-white/5">
+              No problems found matching your criteria.
+            </div>
+          ) : (
+            filteredProblems.map((problem) => (
+              <div
+                key={problem._id}
+                className="glass p-3 px-5 rounded-xl flex items-center justify-between hover:bg-white/5 transition-all group"
+              >
+                <div className="flex items-center gap-4">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                    problem.difficulty === 'Easy' ? 'bg-emerald-500/10 text-emerald-500' : 
+                    problem.difficulty === 'Medium' ? 'bg-amber-500/10 text-amber-500' : 'bg-red-500/10 text-red-500'
+                  }`}>
+                    {problem.difficulty}
+                  </span>
+                  <div>
+                    <h4 className="text-sm font-medium text-slate-200">{problem.title}</h4>
+                    <div className="flex gap-2 mt-0.5">
+                      {problem.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="text-[10px] text-slate-500">#{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 text-xs text-slate-500">
+                  <span className="hidden sm:inline">Next: {new Date(problem.nextReviewDate).toLocaleDateString()}</span>
+                  <a href={problem.url} target="_blank" rel="noopener noreferrer" className="p-1.5 hover:text-white transition-colors">
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </section>
     </div>
   );

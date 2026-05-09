@@ -23,6 +23,20 @@ const useStore = create((set, get) => ({
     set({ user: null, token: null, problems: [], dueProblems: [], stats: { total: 0, mastered: 0, dueToday: 0 } });
   },
 
+  fetchProblems: async () => {
+    try {
+      const { token } = get();
+      set({ loading: true });
+      const res = await axios.get(`${API_URL}/problems`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      set({ problems: res.data, loading: false });
+    } catch (error) {
+      console.error('Error fetching problems:', error);
+      set({ loading: false });
+    }
+  },
+
   fetchStats: async () => {
     try {
       const { token } = get();
