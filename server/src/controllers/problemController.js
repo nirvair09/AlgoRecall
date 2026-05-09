@@ -1,4 +1,5 @@
 const Problem = require("../models/Problem");
+const { fetchMetadata: scrapeMetadata } = require("../services/scraperService");
 
 
 
@@ -121,10 +122,28 @@ const getStats = async (req, res) => {
     });
 };
 
+// @desc    Fetch problem metadata from URL
+// @route   GET /api/problems/fetch-metadata
+// @access  Private
+const fetchMetadata = async (req, res) => {
+    const { url } = req.query;
+    if (!url) {
+        return res.status(400).json({ message: "URL is required" });
+    }
+
+    const metadata = await scrapeMetadata(url);
+    if (metadata) {
+        res.json(metadata);
+    } else {
+        res.status(404).json({ message: "Could not fetch metadata" });
+    }
+};
+
 module.exports = {
     addProblem,
     getProblems,
     getDueProblems,
     updateRecallStatus,
     getStats,
+    fetchMetadata,
 };
