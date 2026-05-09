@@ -33,17 +33,21 @@ const problemSchema = new mongoose.Schema(
                 type: String,
             },
         ],
-        currentIntervalIndex: {
+        easeFactor: {
             type: Number,
-            default: 0, // 0: Day 1, 1: Day 3, 2: Day 7, 3: Day 14, 4: Day 30
+            default: 2.5,
+        },
+        intervalDays: {
+            type: Number,
+            default: 0, // 0 means it's new/due today
+        },
+        repetitions: {
+            type: Number,
+            default: 0,
         },
         nextReviewDate: {
             type: Date,
-            default: function () {
-                const date = new Date();
-                date.setDate(date.getDate() + 1); // Default to tomorrow
-                return date;
-            },
+            default: Date.now,
         },
         isMastered: {
             type: Boolean,

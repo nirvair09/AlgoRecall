@@ -1,6 +1,6 @@
 const Problem = require("../models/Problem");
 
-const INTERVALS = [1, 3, 7, 14, 30];
+
 
 // @desc    Add a new problem
 // @route   POST /api/problems
@@ -61,20 +61,38 @@ const updateRecallStatus = async (req, res) => {
             return res.status(401).json({ message: "Not authorized" });
         }
 
-        if (status === "Fail") {
-            problem.currentIntervalIndex = 0;
-        } else {
-            // Easy or Medium
-            if (problem.currentIntervalIndex < INTERVALS.length - 1) {
-                problem.currentIntervalIndex += 1;
+        // SM-2 Algorithm implementation
+        let quality;
+        if (status === "Easy") quality = 5;
+        else if (status === "Medium") quality = 4;
+        else quality = 0; // Fail
+
+        // Update repetitions and interval
+        if (quality >= 3) {
+            if (problem.repetitions === 0) {
+                problem.intervalDays = 1;
+            } else if (problem.repetitions === 1) {
+                problem.intervalDays = 6;
             } else {
-                problem.isMastered = true;
+                problem.intervalDays = Math.ceil(problem.intervalDays * problem.easeFactor);
             }
+            problem.repetitions += 1;
+        } else {
+            problem.repetitions = 0;
+            problem.intervalDays = 1;
         }
 
-        const daysToAdd = INTERVALS[problem.currentIntervalIndex];
+        // Update easeFactor
+        problem.easeFactor = problem.easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+        if (problem.easeFactor < 1.3) problem.easeFactor = 1.3;
+
+        // Check if mastered (optional: if interval is very large, e.g., > 180 days)
+        if (problem.intervalDays > 180) {
+            problem.isMastered = true;
+        }
+
         const nextDate = new Date();
-        nextDate.setDate(nextDate.getDate() + daysToAdd);
+        nextDate.setDate(nextDate.getDate() + problem.intervalDays);
         problem.nextReviewDate = nextDate;
 
         const updatedProblem = await problem.save();
