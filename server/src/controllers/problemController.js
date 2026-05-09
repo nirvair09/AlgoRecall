@@ -139,6 +139,51 @@ const fetchMetadata = async (req, res) => {
     }
 };
 
+// @desc    Get detailed analytics
+// @route   GET /api/problems/analytics
+// @access  Private
+const getAnalytics = async (req, res) => {
+    const problems = await Problem.find({ user: req.user._id });
+
+    // Group by Tags
+    const tagCounts = {};
+    problems.forEach((p) => {
+        p.tags.forEach((tag) => {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        });
+    });
+    const radarData = Object.keys(tagCounts).map((tag) => ({
+        subject: tag,
+        A: tagCounts[tag],
+        fullMark: Math.max(...Object.values(tagCounts), 5),
+    }));
+
+    // Group by Difficulty
+    const difficultyCounts = {
+        Easy: problems.filter((p) => p.difficulty === "Easy").length,
+        Medium: problems.filter((p) => p.difficulty === "Medium").length,
+        Hard: problems.filter((p) => p.difficulty === "Hard").length,
+    };
+
+    // Heatmap data (based on updatedAt for now as a proxy for activity)
+    // In a real app, we might want a separate ReviewHistory model
+    const activityData = {};
+    problems.forEach(p => {
+        const date = p.updatedAt.toISOString().split('T')[0];
+        activityData[date] = (activityData[date] || 0) + 1;
+    });
+    const heatmapData = Object.keys(activityData).map(date => ({
+        date,
+        count: activityData[date]
+    }));
+
+    res.json({
+        radarData,
+        difficultyCounts,
+        heatmapData
+    });
+};
+
 module.exports = {
     addProblem,
     getProblems,
@@ -146,4 +191,5 @@ module.exports = {
     updateRecallStatus,
     getStats,
     fetchMetadata,
+    getAnalytics,
 };

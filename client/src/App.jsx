@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import RecallFlow from './pages/RecallFlow';
 import AddProblem from './pages/AddProblem';
+import Analytics from './pages/Analytics';
 import Navbar from './components/Navbar';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
             <Route path="/recall" element={user ? <RecallFlow /> : <Navigate to="/login" />} />
             <Route path="/add" element={user ? <AddProblem /> : <Navigate to="/login" />} />
+            <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/login" />} />
           </Routes>
         </main>
       </div>

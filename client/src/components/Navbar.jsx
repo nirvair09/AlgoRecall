@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Brain, LogOut, PlusCircle, LayoutDashboard } from 'lucide-react';
+import { Brain, LogOut, PlusCircle, LayoutDashboard, BarChart3 } from 'lucide-react';
 import useStore from '../store/useStore';
 
 const Navbar = () => {
@@ -30,6 +30,10 @@ const Navbar = () => {
           <Link to="/add" className="flex items-center gap-2 hover:text-primary-400 transition-colors">
             <PlusCircle size={20} />
             <span className="hidden md:inline">Add Problem</span>
+          </Link>
+          <Link to="/analytics" className="flex items-center gap-2 hover:text-primary-400 transition-colors">
+            <BarChart3 size={20} />
+            <span className="hidden md:inline">Analytics</span>
           </Link>
           
           <div className="h-6 w-px bg-white/10 mx-2" />

@@ -87,6 +87,19 @@ const useStore = create((set, get) => ({
       return null;
     }
   },
+
+  fetchAnalytics: async () => {
+    try {
+      const { token } = get();
+      const res = await axios.get(`${API_URL}/problems/analytics`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+      return null;
+    }
+  },
 }));
 
 export default useStore;
