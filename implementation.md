@@ -107,8 +107,29 @@ Help manage a growing database of hundreds of problems.
 
 ---
 
-## 🛠️ Next Steps (V2)
+## 🚀 Version 3: "The Interview Mastery Suite"
+
+### 1. AI Mock Interview Mode
+*   **Feature**: Use Gemini to simulate a real-time technical interview.
+*   **Goal**: Move beyond "remembering" to "explaining" and "coding" under pressure.
+
+### 2. Integrated Code Sandbox
+*   **Feature**: Monaco Editor integration with a code execution engine.
+*   **Goal**: Verify that your recalled pattern actually compiles and runs.
+
+### 3. Browser Extension
+*   **Feature**: One-click ingestion from LeetCode/Codeforces.
+*   **Goal**: Zero friction for adding new problems.
+
+### 4. Collaborative Sheets & Social
+*   **Feature**: Shareable collections and review streaks leaderboards.
+*   **Goal**: Leverage community and peer accountability.
+
+---
+
+## 🛠️ Next Steps (V2 & V3)
 1.  **Integrate AI Service**: ✅ Integrated (Gemini 1.5 Flash).
 2.  **Refactor Spaced Repetition Engine**: ✅ Integrated (SM-2 Algorithm).
 3.  **UI Overhaul**: ✅ Integrated (Analytics, Markdown Support, AI Mode).
 4.  **Polish**: Refine Markdown rendering and ensure mobile responsiveness.
+5.  **V3 Initiation**: Start architectural design for the Browser Extension.
