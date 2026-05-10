@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Link as LinkIcon, Tag, FileText, ChevronRight } from 'lucide-react';
+import { Plus, Link as LinkIcon, Tag, FileText, ChevronRight, Sparkles } from 'lucide-react';
 import useStore from '../store/useStore';
 import { motion } from 'framer-motion';
 
@@ -14,8 +14,8 @@ const AddProblem = () => {
     tags: '',
   });
   const [loading, setLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
-  const { addProblem, fetchProblemMetadata } = useStore();
+  const [isAIThinking, setIsAIThinking] = useState(false);
+  const { addProblem, fetchProblemMetadata, generateAIInsights } = useStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -48,6 +48,28 @@ const AddProblem = () => {
       }));
     }
     setIsFetching(false);
+  };
+
+  const handleAIMode = async () => {
+    if (!formData.title) {
+      alert('Please enter a problem title or URL first.');
+      return;
+    }
+
+    setIsAIThinking(true);
+    const description = `${formData.title} (${formData.platform})`;
+    const insights = await generateAIInsights(description);
+
+    if (insights) {
+      const formattedNotes = `### Approach\n${insights.approach}\n\n### Key Insight\n💡 ${insights.keyInsight}\n\n### Common Mistakes\n${insights.commonMistakes.map(m => `- ${m}`).join('\n')}\n\n### Complexity\n- **Time**: ${insights.complexity.split(',')[0] || insights.complexity}\n- **Space**: ${insights.complexity.split(',')[1] || ''}`;
+      
+      setFormData(prev => ({
+        ...prev,
+        notes: formattedNotes,
+        tags: prev.tags ? `${prev.tags}, ${insights.tags.join(', ')}` : insights.tags.join(', ')
+      }));
+    }
+    setIsAIThinking(false);
   };
 
   return (
@@ -141,7 +163,18 @@ const AddProblem = () => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium text-slate-400">Approach & Notes</label>
-            <span className="text-[10px] uppercase tracking-wider text-primary-400 bg-primary-400/10 px-2 py-0.5 rounded">Rich Markdown Support</span>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleAIMode}
+                disabled={isAIThinking}
+                className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 px-3 py-1 rounded-full transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
+              >
+                <Sparkles size={12} className={isAIThinking ? 'animate-pulse' : ''} />
+                {isAIThinking ? 'Gemini is Thinking...' : 'Gemini AI Mode'}
+              </button>
+              <span className="text-[10px] uppercase tracking-wider text-primary-400 bg-primary-400/10 px-2 py-0.5 rounded">Rich Markdown</span>
+            </div>
           </div>
           <textarea
             required

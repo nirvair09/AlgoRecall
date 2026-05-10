@@ -114,6 +114,19 @@ const useStore = create((set, get) => ({
       return null;
     }
   },
+
+  generateAIInsights: async (description) => {
+    try {
+      const { token } = get();
+      const res = await axios.post(`${API_URL}/problems/generate-ai-insights`, { description }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      console.error('Error generating AI insights:', error);
+      return null;
+    }
+  },
 }));
 
 export default useStore;

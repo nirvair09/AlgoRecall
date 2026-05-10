@@ -108,6 +108,7 @@ Help manage a growing database of hundreds of problems.
 ---
 
 ## 🛠️ Next Steps (V2)
-1.  **Integrate AI Service**: Setup an LLM (Gemini/OpenAI) or a scraper for LeetCode data extraction.
-2.  **Refactor Spaced Repetition Engine**: Transition from `currentIntervalIndex` to `easeFactor` and `intervalDays`.
-3.  **UI Overhaul**: Add an "Analytics" tab and implement Markdown rendering.
+1.  **Integrate AI Service**: ✅ Integrated (Gemini 1.5 Flash).
+2.  **Refactor Spaced Repetition Engine**: ✅ Integrated (SM-2 Algorithm).
+3.  **UI Overhaul**: ✅ Integrated (Analytics, Markdown Support, AI Mode).
+4.  **Polish**: Refine Markdown rendering and ensure mobile responsiveness.

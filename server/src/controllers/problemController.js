@@ -1,5 +1,6 @@
 const Problem = require("../models/Problem");
 const { fetchMetadata: scrapeMetadata } = require("../services/scraperService");
+const { generateProblemInsights } = require("../services/aiService");
 
 
 
@@ -184,6 +185,19 @@ const getAnalytics = async (req, res) => {
     });
 };
 
+// @desc    Generate AI insights for a problem
+// @route   POST /api/problems/generate-ai-insights
+// @access  Private
+const generateAIInsights = async (req, res) => {
+    const { description } = req.body;
+    if (!description) {
+        return res.status(400).json({ message: "Description is required" });
+    }
+
+    const insights = await generateProblemInsights(description);
+    res.json(insights);
+};
+
 module.exports = {
     addProblem,
     getProblems,
@@ -192,4 +206,5 @@ module.exports = {
     getStats,
     fetchMetadata,
     getAnalytics,
+    generateAIInsights,
 };
