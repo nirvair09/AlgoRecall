@@ -8,15 +8,16 @@ import RecallFlow from './pages/RecallFlow';
 import AddProblem from './pages/AddProblem';
 import Analytics from './pages/Analytics';
 import Navbar from './components/Navbar';
+import MobileNav from './components/MobileNav';
 
 function App() {
   const { user } = useStore();
 
   return (
     <Router>
-      <div className="min-h-screen bg-[#0f172a] text-slate-200">
+      <div className="min-h-screen bg-background text-slate-200">
         {user && <Navbar />}
-        <main className="container mx-auto px-4 py-8">
+        <main className={`container mx-auto px-4 ${user ? 'pb-24 pt-4 md:pb-8 md:pt-8' : 'py-8'}`}>
           <Routes>
             <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
             <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
@@ -27,6 +28,7 @@ function App() {
             <Route path="/analytics" element={user ? <Analytics /> : <Navigate to="/login" />} />
           </Routes>
         </main>
+        {user && <MobileNav />}
       </div>
     </Router>
   );

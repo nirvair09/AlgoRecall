@@ -73,114 +73,121 @@ const AddProblem = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-8 px-4">
-      <header className="mb-10">
-        <h1 className="text-3xl font-bold text-white">Add New Problem</h1>
-        <p className="text-slate-400 mt-2">Every entry is a step closer to mastery.</p>
+    <div className="max-w-3xl mx-auto py-10 px-4 pb-24 md:pb-12">
+      <header className="mb-12">
+        <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
+          Add New <span className="gradient-text">Challenge</span>
+        </h1>
+        <p className="text-slate-400 mt-4 text-lg">Every entry is a step closer to mastery.</p>
       </header>
 
       <motion.form
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         onSubmit={handleSubmit}
-        className="glass p-8 rounded-3xl space-y-6"
+        className="glass p-10 rounded-[3rem] space-y-10 shadow-2xl relative overflow-hidden"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-400">Problem Title</label>
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-secondary-500 opacity-50" />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Problem Title</label>
             <input
               required
               type="text"
               placeholder="e.g. Longest Palindromic Substring"
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary-500 outline-none transition-all"
+              className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white focus:bg-white/[0.05] focus:border-primary-500 outline-none transition-all text-lg placeholder:text-slate-700"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             />
           </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-400">URL</label>
-            <div className="relative">
-              <LinkIcon className="absolute left-4 top-3.5 text-slate-500" size={18} />
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">URL</label>
+            <div className="relative group">
+              <LinkIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-400 transition-colors" size={20} />
               <input
                 required
                 type="url"
                 placeholder="https://leetcode.com/..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white focus:border-primary-500 outline-none transition-all"
+                className="w-full bg-white/[0.03] border border-white/5 rounded-2xl pl-14 pr-6 py-4 text-white focus:bg-white/[0.05] focus:border-primary-500 outline-none transition-all text-lg placeholder:text-slate-700"
                 value={formData.url}
                 onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                 onBlur={handleUrlBlur}
               />
               {isFetching && (
-                <div className="absolute right-4 top-3.5 flex items-center gap-2 text-primary-400 text-xs">
-                  <div className="w-4 h-4 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></div>
-                  <span>Fetching...</span>
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2 text-primary-400">
+                  <div className="w-5 h-5 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></div>
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-400">Difficulty</label>
-            <select
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary-500 outline-none transition-all"
-              value={formData.difficulty}
-              onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
-            >
-              <option value="Easy" className="bg-[#1e293b]">Easy</option>
-              <option value="Medium" className="bg-[#1e293b]">Medium</option>
-              <option value="Hard" className="bg-[#1e293b]">Hard</option>
-            </select>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Difficulty</label>
+            <div className="relative group">
+              <select
+                className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white focus:bg-white/[0.05] focus:border-primary-500 outline-none transition-all text-lg appearance-none cursor-pointer"
+                value={formData.difficulty}
+                onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
+              >
+                <option value="Easy" className="bg-background-lighter">Easy</option>
+                <option value="Medium" className="bg-background-lighter">Medium</option>
+                <option value="Hard" className="bg-background-lighter">Hard</option>
+              </select>
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 group-focus-within:text-primary-400">
+                <ChevronRight size={20} className="rotate-90" />
+              </div>
+            </div>
           </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-400">Platform</label>
+          <div className="space-y-3">
+            <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Platform</label>
             <input
               required
               type="text"
               placeholder="LeetCode, Codeforces, etc."
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary-500 outline-none transition-all"
+              className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 text-white focus:bg-white/[0.05] focus:border-primary-500 outline-none transition-all text-lg placeholder:text-slate-700"
               value={formData.platform}
               onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
             />
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-400">Tags (comma separated)</label>
-          <div className="relative">
-            <Tag className="absolute left-4 top-3.5 text-slate-500" size={18} />
+        <div className="space-y-3">
+          <label className="text-sm font-bold text-slate-500 uppercase tracking-widest ml-1">Tags (comma separated)</label>
+          <div className="relative group">
+            <Tag className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-400 transition-colors" size={20} />
             <input
               type="text"
               placeholder="DP, String, Sliding Window"
-              className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white focus:border-primary-500 outline-none transition-all"
+              className="w-full bg-white/[0.03] border border-white/5 rounded-2xl pl-14 pr-6 py-4 text-white focus:bg-white/[0.05] focus:border-primary-500 outline-none transition-all text-lg placeholder:text-slate-700"
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
             />
           </div>
         </div>
 
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-slate-400">Approach & Notes</label>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between ml-1">
+            <label className="text-sm font-bold text-slate-500 uppercase tracking-widest">Approach & Notes</label>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={handleAIMode}
                 disabled={isAIThinking}
-                className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 px-3 py-1 rounded-full transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-400 hover:to-secondary-400 px-5 py-2 rounded-full transition-all shadow-xl shadow-primary-500/20 disabled:opacity-50 active:scale-95 group"
               >
-                <Sparkles size={12} className={isAIThinking ? 'animate-pulse' : ''} />
-                {isAIThinking ? 'Gemini is Thinking...' : 'Gemini AI Mode'}
+                <Sparkles size={14} className={isAIThinking ? 'animate-spin' : 'group-hover:rotate-12 transition-transform'} />
+                {isAIThinking ? 'AI Thinking...' : 'Gemini AI Assistant'}
               </button>
-              <span className="text-[10px] uppercase tracking-wider text-primary-400 bg-primary-400/10 px-2 py-0.5 rounded">Rich Markdown</span>
             </div>
           </div>
           <textarea
             required
-            rows={6}
+            rows={8}
             placeholder="Explain the logic, time complexity, and any tricky edge cases..."
-            className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-4 text-white focus:border-primary-500 outline-none transition-all resize-none"
+            className="w-full bg-white/[0.03] border border-white/5 rounded-[2rem] px-8 py-8 text-white focus:bg-white/[0.05] focus:border-primary-500 outline-none transition-all resize-none text-lg leading-relaxed placeholder:text-slate-700 custom-scrollbar"
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
           />
@@ -189,12 +196,14 @@ const AddProblem = () => {
         <button
           disabled={loading}
           type="submit"
-          className="w-full bg-primary-600 hover:bg-primary-500 disabled:bg-slate-700 text-white py-4 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-primary-500/20 flex items-center justify-center gap-2"
+          className="w-full bg-primary-500 hover:bg-primary-400 disabled:bg-slate-800 text-white py-6 rounded-[2rem] font-black text-2xl transition-all shadow-2xl shadow-primary-500/30 flex items-center justify-center gap-3 active:scale-[0.98]"
         >
-          {loading ? 'Adding...' : (
+          {loading ? (
+            <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
             <>
-              <Plus size={20} />
-              Save Problem to System
+              <Plus size={28} />
+              <span>Save Challenge</span>
             </>
           )}
         </button>

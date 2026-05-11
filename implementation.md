@@ -69,7 +69,12 @@ Categorize problems to identify weak areas.
 
 ## 🌟 Version 2: "The Intelligent Recall System"
 
-### 1. Smart Adaptation (SM-2 Algorithm)
+### 2.1 Mobile-First & Soothing UI (Student-Centric)
+*   **Mobile-First Navigation**: Floating bottom tab bar (`MobileNav`) for intuitive thumb reachability, prioritizing the mobile experience for "on-the-go" reviews.
+*   **Student-Centric Color Palette**: A "Lavender-Slate-Mint" theme designed to reduce cognitive load and eye strain during long sessions.
+*   **Premium Aesthetic**: High-end "Glassmorphism" visual hierarchy with smooth transitions and subtle radial gradients to create a focused, "Pro" study environment.
+
+### 2.2 Smart Adaptation (SM-2 Algorithm)
 Move from fixed intervals to an adaptive algorithm similar to Anki.
 *   **Ease Factor**: Each problem has an "Ease" score (starts at 2.5).
 -   **Calculation**:
@@ -78,7 +83,7 @@ Move from fixed intervals to an adaptive algorithm similar to Anki.
     -   `Fail`: Decrease Ease Factor, reset interval to Day 0.
 *   **Outcome**: Spend more time on hard patterns (e.g., DP) and less on easy ones (e.g., Arrays).
 
-### 2. AI-Powered Auto-Ingestion
+### 2.3 AI-Powered Auto-Ingestion
 Reduce friction during the "Add Problem" phase.
 *   **Scraping/API**: Input a LeetCode URL, and the system automatically fetches:
     -   Title & Slug
@@ -87,19 +92,19 @@ Reduce friction during the "Add Problem" phase.
     -   Company Tags (if available)
 *   **Outcome**: User only needs to write the "Notes" section.
 
-### 3. Visual Mastery & Analytics
+### 2.4 Visual Mastery & Analytics
 Motivate users with data-driven progress tracking.
 *   **Heatmap**: A GitHub-style "Activity Heatmap" to track daily review consistency.
 *   **Pattern Radar**: A radar chart showing performance across different topics (Trees vs. DP vs. Graphs).
 *   **Retention Graph**: Visualize the "Forgetting Curve" and how many problems are nearing "Mastered" status.
 
-### 4. Rich Content Support
+### 2.5 Rich Content Support
 Enhance the "Review" stage for better understanding.
 *   **Markdown Support**: Use React-Markdown to allow code snippets, bold text, and lists in notes.
 *   **Code Highlighting**: Proper syntax highlighting for the "Ideal Solution" section.
 *   **Image Uploads**: Attach screenshots of hand-drawn logic or whiteboards.
 
-### 5. Advanced Organizational Tools
+### 2.6 Advanced Organizational Tools
 Help manage a growing database of hundreds of problems.
 *   **Global Search**: Fuzzy search through titles and tags.
 *   **Bulk Actions**: Mark multiple problems as mastered or move them to a different category.
@@ -130,6 +135,6 @@ Help manage a growing database of hundreds of problems.
 ## 🛠️ Next Steps (V2 & V3)
 1.  **Integrate AI Service**: ✅ Integrated (Gemini 1.5 Flash).
 2.  **Refactor Spaced Repetition Engine**: ✅ Integrated (SM-2 Algorithm).
-3.  **UI Overhaul**: ✅ Integrated (Analytics, Markdown Support, AI Mode).
-4.  **Polish**: Refine Markdown rendering and ensure mobile responsiveness.
+3.  **UI Overhaul**: ✅ Integrated (Mobile-First, Soothing Theme, Analytics, Markdown).
+4.  **Polish**: Refine touch interactions and edge-case rendering.
 5.  **V3 Initiation**: Start architectural design for the Browser Extension.

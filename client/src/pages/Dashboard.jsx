@@ -29,20 +29,25 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-8 max-w-5xl mx-auto pb-12">
+      <header className="flex flex-col gap-6 md:flex-row md:items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Daily Dashboard</h1>
-          <p className="text-slate-400 mt-1">Consistency is the key to mastery.</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+            Hi, <span className="gradient-text">Student</span>
+          </h1>
+          <p className="text-slate-400 mt-2 flex items-center gap-2">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+            Consistency is the key to mastery.
+          </p>
         </div>
         
         {stats.dueToday > 0 && (
           <Link
             to="/recall"
-            className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-primary-500/20 transition-all hover:scale-105 active:scale-95"
+            className="flex items-center justify-center gap-3 bg-primary-500 hover:bg-primary-400 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-primary-500/20 transition-all hover:scale-[1.02] active:scale-95 group"
           >
-            <Play size={20} fill="currentColor" />
-            Start Review Session
+            <Play size={20} fill="currentColor" className="group-hover:translate-x-1 transition-transform" />
+            Start Daily Session
           </Link>
         )}
       </header>
@@ -92,26 +97,33 @@ const Dashboard = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="glass p-4 rounded-xl flex items-center justify-between group hover:border-white/20 transition-all"
+                className="glass p-5 rounded-2xl flex items-center justify-between group hover:border-primary-500/30 transition-all card-hover"
               >
-                <div className="flex items-center gap-4">
-                  <div className={`w-2 h-2 rounded-full ${
-                    problem.difficulty === 'Easy' ? 'bg-emerald-500' : 
-                    problem.difficulty === 'Medium' ? 'bg-amber-500' : 'bg-red-500'
+                <div className="flex items-center gap-5">
+                  <div className={`w-3 h-3 rounded-full shadow-[0_0_12px_rgba(0,0,0,0.5)] ${
+                    problem.difficulty === 'Easy' ? 'bg-emerald-400 shadow-emerald-400/20' : 
+                    problem.difficulty === 'Medium' ? 'bg-amber-400 shadow-amber-400/20' : 'bg-red-400 shadow-red-400/20'
                   }`} />
                   <div>
-                    <h3 className="font-medium text-slate-200">{problem.title}</h3>
-                    <p className="text-xs text-slate-500">{problem.platform} • {problem.tags.join(', ')}</p>
+                    <h3 className="font-semibold text-slate-100 group-hover:text-primary-300 transition-colors">{problem.title}</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[11px] font-bold text-slate-500 uppercase tracking-tighter bg-white/5 px-2 py-0.5 rounded-lg border border-white/5">
+                        {problem.platform}
+                      </span>
+                      <span className="text-[11px] text-slate-500 font-medium">
+                        {problem.tags.join(' • ')}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <a 
                     href={problem.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="p-2 text-slate-400 hover:text-white transition-colors"
+                    className="p-3 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition-all"
                   >
-                    <ExternalLink size={18} />
+                    <ExternalLink size={20} />
                   </a>
                 </div>
               </motion.div>
