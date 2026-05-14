@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// Use the environment variable if it exists, otherwise fallback to localhost
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const useStore = create((set, get) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
